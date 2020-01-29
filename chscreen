@@ -1,0 +1,21 @@
+#!/bin/bash
+echo $1
+if [ "$1" == "2k" ]
+then
+  echo 'setting to 2k'
+	#sed -i 's/Xft.dpi:.*/Xft.dpi: 210/g' ~/.Xresources
+	#sed -i 's/rofi.dpi:.*/rofi.dpi: 210/g' ~/.Xresources
+	#xrdb ~/.Xresources
+	sed -i 's/--mode .* --scale .* --dpi/--mode 2560x1440 --scale 1x1 --dpi/g' ~/.config/i3/startup
+	i3-msg restart
+elif [ "$1" == "4k" ]
+then
+  echo 'setting to 4k'
+  sed -i 's/Xft.dpi:.*/Xft.dpi: 210/g' ~/.Xresources
+	#sed -i 's/rofi.dpi:.*/rofi.dpi: 210/g' ~/.Xresources
+	#xrdb ~/.Xresources
+	sed -i 's/--mode .* --scale .* --dpi/--mode 3840x2160 --scale 1x1 --dpi/g' ~/.config/i3/startup
+	i3-msg restart
+else
+  echo "undefined resolution" 
+fi
