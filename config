@@ -1,173 +1,555 @@
-# set modifier
-set $super Mod4
-set $alt Mod1
-# set font
-#font pango: Noto Sans 10
+# i3 config file (v4)
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+set $mod Mod4
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
 font pango: Hack Nerd Font Mono 10
+#font pango: Roboto 10
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
 
-# Use Mouse+$super to drag floating windows to their wanted position
-floating_modifier $super
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
 
-#autostart
-exec --no-startup-id ~/.config/i3/startup
+# wpgtk colour bindings
+set $bg-color            "#fdf6e3"
+set $opaque-bg-color     "argb:D8fdf6e3"
+set $inactive-bg-color   "#eee8d5"
+set $text-color          "#657b83"
+set $inactive-text-color "#586e75"
+set $urgent-bg-color     "#d33682"
+set $urgent-text-color   "#eee8d5"
+set $highlight-color     "#2aa198"
 
-set $default_terminal alacritty
 
-bindsym $super+Return exec $default_terminal;workspace 1;focus
+exec --no-startup-id ~/.i3/startup
+#exec --no-startup-id xrandr --output eDP1 --auto --mode 2880x1620
+#exec --no-startup-id xsettingsd&
+#exec --no-startup-id compton -b
+#exec --no-startup-id redshift &
+
+# Original Manjaro colours
+# Theme colors
+# class                   border  backgr. text    indic.   child_border
+  client.focused          #556064 #556064 #80FFF9 #FDF6E3
+  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
+  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
+  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
+  client.placeholder      #000000 #0c0c0c #ffffff #000000
+  client.background       #2B2C2B
+
+# Disable mouse follow focus
+focus_follows_mouse no
+
+# Set resolution for main display to 1920x1080 (before restoring nitrogen & running conky)
+# exec_always --no-startup-id "sh $HOME/dotfiles-manjaro-i3/scripts/setup-displays.sh"
+
+# hide title bars
+# enable title bars for floating windows
+# new_float normal 1
+
+# Hide borders
+# hide_edge_borders none
+
+# change borders
+# bindsym $mod+u border none
+# bindsym $mod+y border pixel 1
+# bindsym $mod+n border normal
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font xft:Hack Nerd Font Mono 10
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
 
 
-#toggle screen
-bindsym XF86Display exec --no-startup-id ~/.config/i3/monitor
-#toggle sound
-bindsym XF86Favorites exec --no-startup-id ~/.config/i3/sound
+bindsym $mod+Return exec --no-startup-id termite
+bindsym $mod+Shift+Return exec --no-startup-id terminal
+# kill focused window
+bindsym $mod+c kill
 
 # start dmenu (a program launcher)
-bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Hack Nerd Font Mono:size=10"
-bindsym $super+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 4 -font 'Noto Sans 10'
+# bindsym $mod+d exec --no-startup-id dmenu_recency#
+# start rofi
+#bindsym $mod+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'DejaVu Sans Mono:size=10"
+bindsym $mod+Shift+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 4 -font 'Hack Nerd Font Mono 18'
+# launch categorized menu
+#bindsym $mod+z exec --no-startup-id morc_menu
 
-# common apps keybinds
-bindsym Print exec spectacle& 
-#bindsym $super+l exec i3lock-fancy-rapid 5 3
-bindsym $super+Shift+w exec firefox;workspace 2;focus
-bindsym $super+Shift+f exec dolphin;workspace 3;focus
-bindsym $super+Shift+g exec code;workspace 4;focus
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop pfile. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-#change volume
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
-bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-
-bindsym XF86AudioMute exec amixer set Master toggle
+# key-bindings
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec --no-startup-id light -A 2 # increase screen brightness
-bindsym XF86MonBrightnessDown exec --no-startup-id light -U 2 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 
-# music control
-bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioPrev exec mpc prev
-bindsym XF86AudioPlay exec mpc toggle
-bindsym XF86AudioStop exec mpc stop
 
-# kill focused window
-bindsym $super+c kill
-bindsym $alt+F4 kill
+#bindsym XF86MonBrightnessUp exec --no-startup-id light -A 2 # increase screen brightness
+#bindsym XF86MonBrightnessDown exec --no-startup-id light -U 2 # decrease screen brightness
+
+#bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
+#bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
+#bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86Display exec ~/.i3/monitor
+#bindsym $mod+e exec nautilus
+bindsym Print exec flameshot gui &
+# Start Applications
+bindsym $mod+Shift+w exec firefox
+bindsym $mod+Shift+g exec code
+bindsym $mod+Shift+f exec thunar
+
+bindsym $mod+t exec --no-startup-id pkill compton
+bindsym $mod+Ctrl+t exec --no-startup-id compton -b
+#bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
+#bindsym Print exec --no-startup-id i3-scrot
 
 # change focus
-bindsym $super+Left focus left
-bindsym $super+Down focus down
-bindsym $super+Up focus up
-bindsym $super+Right focus right
+# bindsym $mod+j focus left
+# bindsym $mod+k focus down
+# bindsym $mod+l focus up
+# bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
 # move focused window
-bindsym $super+Shift+Left move left
-bindsym $super+Shift+Down move down
-bindsym $super+Shift+Up move up
-bindsym $super+Shift+Right move right
+# bindsym $mod+Shift+j move left
+# bindsym $mod+Shift+k move down
+# bindsym $mod+Shift+l move up
+# bindsym $mod+Shift+semicolon move right
 
-# split in horizontal orientation
-bindsym $super+h split h
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
-# split in vertical orientation
-bindsym $super+v split v
+# move workspace to next output (screen)
+bindsym $mod+Ctrl+Right move workspace to output right
+bindsym $mod+Ctrl+Left move workspace to output left
 
-# enter fullscreen mode for the focused container
-bindsym $super+f fullscreen toggle
+# workspace back and forth (with/without active container)
+workspace_auto_back_and_forth yes
+bindsym $mod+b workspace back_and_forth
+bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
-# change container layout split
-bindsym $super+s layout toggle split
+# split orientation
+bindsym $mod+h split h;exec notify-send 'tile horizontally'
+bindsym $mod+v split v;exec notify-send 'tile vertically'
+bindsym $mod+q split toggle
+
+# toggle fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $super+space floating toggle
+bindsym $mod+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $super+Shift+space focus mode_toggle
+bindsym $mod+Shift+space focus mode_toggle
 
-# copy/paste
-#bindsym $Control+c exec -no-startup-id xclip -i -selection clipboard
-#bindsym $Control+v exec -no-startup-id xclip -o -selection clipboard
+# toggle sticky
+bindsym $mod+Shift+s sticky toggle
 
-# switch to workspace
-bindsym $alt+Control+Right workspace next
-bindsym $alt+Control+Left workspace prev
-bindsym $super+Tab workspace next
-bindsym $super+1 workspace 1
-bindsym $super+2 workspace 2
-bindsym $super+3 workspace 3
-bindsym $super+4 workspace 4
-bindsym $super+5 workspace 5
-bindsym $super+6 workspace 6
-bindsym $super+7 workspace 7
-bindsym $super+8 workspace 8
-bindsym $super+9 workspace 9
+# focus the parent container
+bindsym $mod+a focus parent
 
-# move focused container to workspace
-bindsym $super+Shift+1 move container to workspace 1
-bindsym $super+Shift+2 move container to workspace 2
-bindsym $super+Shift+3 move container to workspace 3
-bindsym $super+Shift+4 move container to workspace 4
-bindsym $super+Shift+5 move container to workspace 5
-bindsym $super+Shift+6 move container to workspace 6
-bindsym $super+Shift+7 move container to workspace 7
-bindsym $super+Shift+8 move container to workspace 8
-bindsym $super+Shift+9 move container to workspace 9
+# focus the child container
+#bindsym $mod+d focus child
 
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $super+Shift+r restart
+# move the currently focused window to the scratchpad
+bindsym $mod+equal move scratchpad
 
-# scratchpad
-bindsym $super+equal move scratchpad
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
 bindsym F12 scratchpad show
 
-# exit i3
-bindsym $super+q exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
+# give focus to the most recently "urgent" workspace
+bindsym $mod+u [urgent="latest"] focus
+
+# alt-tab and shift-tab to switch between workspaces
+bindsym Mod1+Tab workspace next
+bindsym Mod1+Shift+Tab workspace prev
+
+#navigate workspaces next / previous
+#bindsym $mod+Ctrl+Right workspace next
+#bindsym $mod+Ctrl+Left workspace prev
+
+# Workspace names
+# to display names or symbols instead of plain workspace numbers you can use
+# something like: set $ws1 1:mail
+#                 set $ws2 2:
+set $workspace1 " Terminal" 
+set $workspace2 " Firefox"
+set $workspace3 " Editor"
+set $workspace4 " Files"
+set $workspace5 " Email"
+set $workspace6 " Music"
+set $workspace7 "7"
+set $workspace8 " Chat"
+set $workspace9 "9"
+set $workspace10 "10"
+#set $workspace1 "1"
+#set $workspace2 "2"
+#set $workspace3 "3"
+#set $workspace4 "4"
+#set $workspace5 "5"
+#set $workspace6 "6"
+#set $workspace7 "7"
+#set $workspace8 "8"
+#set $workspace9 "9"
+#set $workspace10 "10"
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace  $workspace1
+bindsym $mod+Shift+2 move container to workspace  $workspace2
+bindsym $mod+Shift+3 move container to workspace  $workspace3
+bindsym $mod+Shift+4 move container to workspace  $workspace4
+bindsym $mod+Shift+5 move container to workspace  $workspace5
+bindsym $mod+Shift+6 move container to workspace  $workspace6
+bindsym $mod+Shift+7 move container to workspace  $workspace7
+bindsym $mod+Shift+8 move container to workspace  $workspace8
+bindsym $mod+Shift+9 move container to workspace  $workspace9
+bindsym $mod+Shift+0 move container to workspace  $workspace10
+
+# switch to workspace
+bindsym $mod+1 workspace  $workspace1
+bindsym $mod+2 workspace  $workspace2
+bindsym $mod+3 workspace  $workspace3
+bindsym $mod+4 workspace  $workspace4
+bindsym $mod+5 workspace  $workspace5
+bindsym $mod+6 workspace  $workspace6
+bindsym $mod+7 workspace  $workspace7
+bindsym $mod+8 workspace  $workspace8
+bindsym $mod+9 workspace  $workspace9
+bindsym $mod+0 workspace  $workspace10
+
+# workspace default monitors
+workspace $workspace1 output HDMI1
+workspace $workspace2 output HDMI1
+workspace $workspace3 output HDMI1
+workspace $workspace4 output HDMI1
+workspace $workspace5 output HDMI1
+workspace $workspace6 output eDP1
+workspace $workspace7 output eDP1
+workspace $workspace8 output eDP1
+workspace $workspace9 output eDP1
+workspace $workspace10 output eDP1
+
+# Open specific applications in floating mode
+#for_window [title="alsamixer"] floating enable border pixel 1
+for_window [class="Calamares"] floating enable border normal
+for_window [class="Clipgrab"] floating enable
+for_window [title="File Transfer*"] floating enable
+for_window [class="Gnome-calculator"] floating enable border pixel 1
+for_window [class="GParted"] floating enable border normal
+for_window [title="i3_help"] floating enable sticky enable border normal
+for_window [class="Lightdm-gtk-greeter-settings"] floating enable
+for_window [class="Lxappearance"] floating enable sticky enable border normal
+for_window [class="Manjaro-hello"] floating enable
+for_window [class="Manjaro Settings Manager"] floating enable border normal
+for_window [title="MuseScore: Play Panel"] floating enable
+for_window [class="Nitrogen"] floating enable sticky enable border normal
+for_window [class="Oblogout"] fullscreen enable
+for_window [class="octopi"] floating enable
+for_window [title="About Pale Moon"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [class="Pamac-updater"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="qt5ct"] floating enable sticky enable border normal
+for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
+for_window [class="Simple-scan"] floating enable border normal
+for_window [class="(?i)System-config-printer.py"] floating enable border normal
+#for_window [class="Skype"] floating enable border normal
+for_window [class="Thus"] floating enable border normal
+for_window [class="Timeset-gui"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="Xfburn"] floating enable
+for_window [class="Gpick"] floating enable
+for_window [class="Shutter"] floating enable
+for_window [class="Epdfview"] floating enable border normal
+
+# default workspaces
+assign [class="Google-chrome"] $workspace2
+assign [class="firefox"] $workspace2
+assign [class="Skype"] $workspace8
+assign [class="Thunderbird"] $workspace5
+assign [class="Termite"] $workspace1
+assign [class="Code"] $workspace3
+# Spotify doesn't play nice
+for_window [class="Spotify"] move to workspace $workspace10
+for_window [class="Google-chrome" title=".*WhatsApp.*"] move to workspace $workspace8
+
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Set shut down, restart and locking features
+bindsym $mod+Esc mode "$mode_system"
+set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
 
 # resize window (you can also use the mouse for that)
+bindsym $mod+r mode "resize"
 mode "resize" {
-        bindsym Left resize shrink width 5 px or 5 ppt
-        bindsym Down resize grow height 5 px or 5 ppt
-        bindsym Up resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
-        bindsym Return mode "default"
-}
-bindsym $super+r mode "resize"
+        # These bindings trigger as soon as you enter the resize mode
 
-# panel
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+
+# window colors
+# Note that for the window decorations, the color around the child window is the "child_border", and "border" color is only the two thin lines around the titlebar.
+#                       border              background         text                 indicator        child border
+client.focused          $inactive-bg-color  $bg-color          $text-color          $urgent-bg-color $inactive-bg-color
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color $urgent-bg-color $inactive-bg-color
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color $urgent-bg-color $inactive-bg-color
+client.urgent           $urgent-bg-color    $urgent-bg-color   $urgent-text-color   $urgent-bg-color $inactive-bg-color
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+#bar {
+#  status_command i3blocks -c ~/.config/i3/i3blocks.conf
+#  tray_output primary
+#  position top
+#	colors {
+#		background $bg-color
+#		separator #757575
+#		#                  border             background         text
+#		focused_workspace  $bg-color          $bg-color          $text-color
+#		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+#		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $urgent-text-color
+#	}
+#}
+
+
+# hide/unhide i3status bar
+bindsym $mod+m bar mode toggle
+
+# Use compton compositor
+
+#exec --no-startup-id compton -f --respect-prop-shadow
+
+# Set natural scrolling
+#exec_always --no-startup-id sh $HOME/dotfiles-manjaro-i3/scripts/natural-scrolling.sh
+
+# Screen layouts
+#bindsym $mod+Ctrl+Shift+1 exec --no-startup-id sh ~/.screenlayout/single-1080.sh
+#bindsym $mod+Ctrl+Shift+2 exec --no-startup-id sh ~/.screenlayout/dual-1080.sh
+#bindsym $mod+Ctrl+Shift+3 exec --no-startup-id sh ~/.screenlayout/dual-home-1080.sh
+#bindsym $mod+Ctrl+Shift+4 exec --no-startup-id sh ~/.screenlayout/single-hdmi-1080.sh
+
+# AUTOSTART
+
+# applets
+
+#exec_always --no-startup-id killall nm-applet; nm-applet
+#exec_always --no-startup-id killall blueman-applet; blueman-applet
+#exec_always --no-startup-id killall pamac-tray; pamac-tray
+#exec_always --no-startup-id killall clipit; clipit
+#exec_always --no-startup-id killall fluxgui; fluxgui
+
+# persistent daemons
+
+exec --no-startup-id eval `ssh-agent -s`
+# exec_always --no-startup-id sbxkb
+# configuration
+
+#exec_always --no-startup-id "sh $HOME/dotfiles-manjaro-i3/scripts/trackpad-setup.sh"
+#exec_always --no-startup-id "$HOME/dotfiles-manjaro-i3/scripts/start-conky"
+#exec_always --no-startup-id nitrogen --restore; sleep 1; compton -b
+#exec_always --no-startup-id sudo tzupdate
+#exec --no-startup-id "ruby $HOME/dotfiles-manjaro-i3/scripts/i3-floating-titles.rb"
+#exec --no-startup-id xautolock -time 3 -locker ~/lock-i3.sh
+#exec --no-startup-id '"$HOME/dotfiles-manjaro-i3/scripts/i3-battery-popup.sh" -n -t10s'
+
+# Manjaro stuff
+
+# #exec --no-startup-id manjaro-hello
+#exec_always --no-startup-id ff-theme-util
+exec_always --no-startup-id fix_xcursor
+
+# layouts
+# exec --no-startup-id "i3-msg 'workspace 1; append_layout $HOME/dotfiles-manjaro-i3/config/i3/layouts/workspace-1.json'"
+
+# Applications
+exec --no-startup-id firefox
+exec --no-startup-id thunderbird
+exec --no-startup-id termite
+exec --no-startup-id albert
+exec --no-startup-id megasync
+#exec --no-startup-id dropbox
+#exec --no-startup-id xfce4-power-manager
+#exec --no-startup-id franz
+#############################
+### settings for i3-gaps: ###
+#############################
+
+# Set inner/outer gaps
+for_window [class=".*"] border pixel 0
+gaps inner 3
+gaps outer 3
+#border_radius 10
+## Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
+## gaps inner|outer current|all set|plus|minus <px>
+## gaps inner all set 10
+## gaps outer all plus 5
+
+## Smart gaps (gaps used if only more than one container on the workspace)
+#smart_gaps on
+
+## Smart borders (draw borders around container only if it is not the only container on this workspace)
+## on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+#smart_borders on
+#smart_borders no_gaps
+#border_radius 15
+
+set $mode_gaps Toggle gaps: (1) on (2) off
+bindsym $mod+Ctrl+g mode "$mode_gaps"
+mode "$mode_gaps" {
+    bindsym 1 mode "default", gaps inner all set 3
+    bindsym 2 mode "default", gaps inner all set 0
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+# set $mode_gaps Gaps: (o) outer, (i) inner
+# set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# bindsym $mod+Shift+g mode "$mode_gaps"
+#
+# mode "$mode_gaps" {
+#         bindsym o      mode "$mode_gaps_outer"
+#         bindsym i      mode "$mode_gaps_inner"
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+#
+# mode "$mode_gaps_inner" {
+#         bindsym plus  gaps inner current plus 5
+#         bindsym minus gaps inner current minus 5
+#         bindsym 0     gaps inner current set 0
+#
+#         bindsym Shift+plus  gaps inner all plus 5
+#         bindsym Shift+minus gaps inner all minus 5
+#         bindsym Shift+0     gaps inner all set 0
+#
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+#
+# mode "$mode_gaps_outer" {
+#         bindsym plus  gaps outer current plus 5
+#         bindsym minus gaps outer current minus 5
+#         bindsym 0     gaps outer current set 0
+#
+#         bindsym Shift+plus  gaps outer all plus 5
+#         bindsym Shift+minus gaps outer all minus 5
+#         bindsym Shift+0     gaps outer all set 0
+#
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+#
+
+
+#client.focused              #61afef #2f343f #d8dee8 #61afef #d8dee8
+#client.focused_inactive     #2f343f #2f343f #d8dee8 #2f343f #2f343f
+#client.unfocused            #2f343f #2f343f #d8dee8 #2f343f #2f343f
+#client.urgent               #2f343f #2f343f #d8dee8 #2f343f #2f343f
+#client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
+#client.background           #2f343f
+
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh --forest
+
 bar {
+        mode dock
+        wheel_up_cmd nop
+        wheel_down_cmd nop
+
         colors {
-        background #212121
-        statusline #ffffff
-        separator #ffffff
-        # colour of border, background, and text
-        focused_workspace       #2f343f #61afef #d8dee8
-        active_workspace        #2f343f #2f343f #d8dee8
-        inactive_workspace      #2f343f #2f343f #d8dee8
-        urgent_workspacei       #2f343f #ebcb8b #2f343f
+        background #222D31
+       statusline #F9FAF9
+        separator  #454947
+
+#                           border  backgr. text
+        focused_workspace  #F9FAF9 #16a085 #292F34
+        active_workspace   #595B5B #353836 #FDF6E3
+        inactive_workspace #595B5B #222D31 #EEE8D5
+        binding_mode       #16a085 #2C2C2C #F9FAF9
+        urgent_workspace   #16a085 #FDF6E3 #E5201D 
     }
+#        #font pango: Hack Nerd Font Mono, Icons10
+        font pango: Source Sans Pro, IconicIcons 11
+#        #font pango: Icons, Roboto 12
         position top
         separator_symbol "|"
         status_command i3status
 }
 
-# window rules, you can find the window class using xprop
-for_window [class=".*"] border pixel 1
-assign [class=Alacritty] 1
-assign [class=Firefox|Transmission-gtk] 2
-assign [class=dolphin|File-roller] 3
-assign [class=Code|Evince|Gucharmap|Soffice|libreoffice*] 4
-assign [class=Audacity|Vlc|mpv|Ghb|Xfburn|Gimp*|Inkscape] 5
-assign [class=Lxappearance|System-config-printer.py|Lxtask|GParted|Pavucontrol|Exo-helper*|Lxrandr|Arandr] 6
-for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol] floating enable
-for_window [class=Alacritty|Firefox|code|Evince|Soffice|libreoffice*|mpv|Ghb|Xfburn|Gimp*|Inkscape|Vlc|Lxappearance|Audacity] focus
-for_window [class=Xfburn|GParted|System-config-printer.py|Lxtask|Pavucontrol|Exo-helper*|Lxrandr|Arandr] focus
-
-# colour of border, background, text, indicator, and child_border
-client.focused              #61afef #2f343f #d8dee8 #61afef #d8dee8
-client.focused_inactive     #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.unfocused            #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.urgent               #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.background           #2f343f
-
-#set background
 exec_always --no-startup-id feh --bg-fill ~/Pictures/screen2.jpg
-
-

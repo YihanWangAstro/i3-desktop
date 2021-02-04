@@ -1,9 +1,19 @@
 #!/bin/bash
 
 #i3 startup script
-xrandr --output eDP-1 --mode 2880x1620 --scale 1x1 --filter nearest
+xrandr --output eDP1 --auto --mode 2880x1620 --output HDMI1 --scale-from 2880x1620
+amixer -c 0 sset "Auto-Mute Mode" Enabled
 xsettingsd &
-compton -b
+picom -bc &
 fcitx &
+flameshot &
 redshift &
-#exec nm-applet
+nm-applet &
+blueman-applet &
+pamac-tray &
+clipit &
+#fix_xcursor &
+ff-theme-util &
+pasystray &
+languagetool --http --port 8081 &
+
